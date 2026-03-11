@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Santo Terço – Rosário Mariano</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #ffffff;
+    color: #1a1a1a;
+    line-height: 1.65;
+  }
+
+  /* ── VARIÁVEIS ── */
+  :root {
+    --navy:      #001f54;
+    --mid-blue:  #003399;
+    --light-blue:#e6f2ff;
+    --gold:      #c9a84c;
+    --gold-dark: #8a6d00;
+    --yellow:    #fff8dc;
+    --gray:      #f8f9fa;
+    --red:       #c0392b;
+    --green:     #1a6b1a;
+    --content-w: 800px;
+  }
+
+  /* ── CAPA ── */
+  .cover {
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #000d2b 0%, #001f54 50%, #003580 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 40px;
+    position: relative;
+    page-break-after: always;
+  }
+  .cover::before, .cover::after {
+    content: '';
+    position: absolute;
+    left: 40px; right: 40px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .cover::before { top: 40px; }
+  .cover::after  { bottom: 40px; }
+  .cover-border {
+    position: absolute;
+    inset: 24px;
+    border: 2px solid var(--gold);
+    pointer-events: none;
+  }
+  .cover-border::after {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 0.6px solid var(--gold);
+    opacity: .6;
+  }
+  .cover-tag {
+    letter-spacing: .25em;
+    font-size: .85rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 28px;
+  }
+  .cover-cross {
+    font-size: 2.5rem;
+    color: var(--gold);
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+  .cover h1 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    color: #ffffff;
+    text-align: center;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .cover-divider {
+    width: 200px;
+    height: 1px;
+    background: var(--gold);
+    margin: 0 auto 24px;
+  }
+  .cover-beads {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin: 20px 0 28px;
+  }
+  .bead {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--gold);
+  }
+  .bead.big { width: 12px; height: 12px; }
+  .cover-desc {
+    color: #c8d8f0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: .95rem;
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    max-width: 480px;
+  }
+  .cover-author-label {
+    color: #c8d8f0;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: .85rem;
+    margin-bottom: 6px;
+  }
+  .cover-author {
+    color: var(--gold);
+    font-family: 'Helvetica Neue', sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: .03em;
+    margin-bottom: 36px;
+  }
+  .cover-footer {
+    color: #7799bb;
+    font-size: .78rem;
+    font-family: 'Helvetica Neue', sans-serif;
+    letter-spacing: .06em;
+  }
+
+  /* ── CONTEÚDO GERAL ── */
+  .content {
+    max-width: var(--content-w);
+    margin: 0 auto;
+    padding: 48px 32px 64px;
+  }
+
+  /* ── CABEÇALHO DE PÁGINA ── */
+  .page-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 28px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: .8rem;
+    font-weight: 700;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .page-header span { color: var(--gold); }
+
+  /* ── TITLE SECTION ── */
+  .page-title {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navy);
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: .04em;
+  }
+  .page-subtitle {
+    font-family: 'Georgia', serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .gold-rule {
+    border: none;
+    border-top: 2px solid var(--gold);
+    margin: 0 0 24px;
+  }
+
+  /* ── DOIS CARDS LADO A LADO ── */
+  .intro-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+  }
+  .intro-card {
+    padding: 18px 20px;
+    font-size: .95rem;
+    line-height: 1.7;
+  }
+  .intro-card:first-child {
+    background: var(--light-blue);
+    border-left: 4px solid var(--navy);
+  }
+  .intro-card:last-child {
+    background: #f0fff0;
+    border-left: 4px solid var(--green);
+  }
+  .intro-card b { color: var(--navy); display: block; margin-bottom: 8px; }
+
+  /* ── CITAÇÃO ── */
+  .quote-block {
+    background: var(--light-blue);
+    border-left: 5px solid var(--navy);
+    padding: 16px 22px;
+    margin: 20px 0;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--navy);
+  }
+  .quote-block .author {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--gold-dark);
+    text-align: right;
+  }
+
+  /* ── FRASE SÍNTESE ── */
+  .sintese {
+    background: var(--yellow);
+    border: 1.5px solid var(--gold);
+    padding: 14px 24px;
+    text-align: center;
+    font-size: 1.05rem;
+    color: var(--navy);
+    margin: 20px 0 36px;
+    line-height: 1.7;
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header {
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 12px 18px;
+    margin: 32px 0 16px;
+    letter-spacing: .03em;
+  }
+
+  /* ── ITEM BLOCK ── */
+  .item-block {
+    background: var(--gray);
+    border-left: 4px solid var(--navy);
+    padding: 14px 18px;
+    margin-bottom: 14px;
+  }
+  .item-block h3 {
+    color: var(--navy);
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .item-block p, .item-block li {
+    font-size: .95rem;
+    line-height: 1.65;
+  }
+  .item-block ul {
+    padding-left: 18px;
+    margin: 6px 0;
+  }
+  .item-block li { margin: 3px 0; }
+
+  /* ── BÍBLIA REF ── */
+  .bib-ref {
+    background: var(--yellow);
+    border-left: 3px solid var(--gold);
+    padding: 8px 14px;
+    font-style: italic;
+    font-size: .9rem;
+    color: var(--navy);
+    margin: 8px 0;
+  }
+
+  /* ── SPIRIT TIP ── */
+  .spirit-tip {
+    background: var(--light-blue);
+    border: 1.5px solid var(--navy);
+    padding: 8px 14px;
+    font-weight: 700;
+    font-size: .9rem;
+    color: var(--navy);
+    margin: 8px 0;
+  }
+
+  /* ── MYSTERY GROUP ── */
+  .mystery-group { margin-bottom: 32px; page-break-inside: avoid; }
+
+  .mystery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 18px;
+    color: #fff;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .mystery-header h2 { font-size: 1.05rem; font-weight: 700; }
+  .mystery-header .days { font-style: italic; font-size: .85rem; color: var(--gold); }
+
+  .mystery-header.gozosos   { background: #003d99; }
+  .mystery-header.dolorosos { background: #7b0000; }
+  .mystery-header.gloriosos { background: #1a6b1a; }
+  .mystery-header.luminosos { background: #7a5900; }
+
+  .mystery-item {
+    padding: 12px 16px;
+    margin-top: 2px;
+    border-left: 3px solid;
+    font-size: .93rem;
+    page-break-inside: avoid;
+  }
+  .mystery-item.gozosos   { background: #f0f4ff; border-color: var(--mid-blue); }
+  .mystery-item.dolorosos { background: #fff5f5; border-color: var(--red); }
+  .mystery-item.gloriosos { background: #f0fff0; border-color: var(--green); }
+  .mystery-item.luminosos { background: #fffbf0; border-color: var(--gold-dark); }
+
+  .mystery-item h4 {
+    margin-bottom: 5px;
+    font-size: .97rem;
+  }
+  .mystery-item h4.gozosos   { color: var(--mid-blue); }
+  .mystery-item h4.dolorosos { color: var(--red); }
+  .mystery-item h4.gloriosos { color: var(--green); }
+  .mystery-item h4.luminosos { color: var(--gold-dark); }
+
+  .mystery-item .ref {
+    font-style: italic;
+    font-size: .87rem;
+    color: #555;
+    margin: 5px 0;
+    line-height: 1.5;
+  }
+  .mystery-item .contemple { font-size: .92rem; line-height: 1.6; }
+  .mystery-item .contemple b { color: #333; }
+
+  /* ── OVERVIEW TABLE ── */
+  .overview-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+    font-size: .88rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .overview-table th {
+    background: var(--navy);
+    color: #fff;
+    padding: 10px 8px;
+    text-align: center;
+    font-size: .85rem;
+  }
+  .overview-table .row-desc td {
+    background: var(--gray);
+    padding: 8px;
+    text-align: center;
+    font-size: .87rem;
+  }
+  .overview-table .row-days td {
+    background: var(--light-blue);
+    padding: 7px 8px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--navy);
+    font-size: .82rem;
+  }
+  .overview-table td, .overview-table th { border: 1px solid #ccc; }
+
+  /* ── STEP BLOCKS ── */
+  .step-block {
+    background: var(--gray);
+    border-left: 4px solid var(--gold);
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+  .step-block h4 { color: var(--navy); font-size: .97rem; margin-bottom: 6px; }
+  .step-block p  { font-size: .93rem; line-height: 1.65; }
+
+  /* ── RESUMO ── */
+  .resumo {
+    background: var(--navy);
+    color: #fff;
+    padding: 24px 28px;
+    margin: 28px 0;
+    border-radius: 4px;
+  }
+  .resumo h2 {
+    text-align: center;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 18px;
+  }
+  .resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .resumo-item {
+    background: rgba(255,255,255,.08);
+    border-left: 3px solid #fff;
+    padding: 10px 12px;
+    font-size: .9rem;
+  }
+  .resumo-item b { display: block; margin-bottom: 3px; }
+  .resumo-item span { color: var(--gold); }
+
+  /* ── DICAS ── */
+  .tips-header {
+    background: var(--light-blue);
+    border: 2px solid var(--navy);
+    padding: 12px 18px;
+    text-align: center;
+    font-weight: 700;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1rem;
+    color: var(--navy);
+    margin-bottom: 0;
+  }
+  .tip-item {
+    background: #fff;
+    border-left: 4px solid var(--navy);
+    border-bottom: 1px solid #ddd;
+    padding: 9px 18px;
+    font-size: .95rem;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    .page-header { position: static; }
+    .cover { page-break-after: always; min-height: 100vh; }
+    .mystery-group, .item-block, .step-block { page-break-inside: avoid; }
+    .mystery-item { page-break-inside: avoid; }
+  }
+
+  @media (max-width: 600px) {
+    .intro-cards { grid-template-columns: 1fr; }
+    .resumo-grid { grid-template-columns: repeat(2,1fr); }
+    .mystery-header { flex-direction: column; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════ CAPA ══════════════ -->
+<section class="cover">
+  <div class="cover-border"></div>
+  <div class="cover-tag">✦ ROSÁRIO MARIANO ✦</div>
+  <div class="cover-cross">✝</div>
+  <h1>O SANTO<br>TERÇO</h1>
+  <p class="cover-subtitle">Explicação Completa com os Mistérios</p>
+  <div class="cover-divider"></div>
+  <div class="cover-beads">
+    <div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead"></div>
+    <div class="bead big"></div>
+    <div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead"></div>
+    <div class="bead big"></div>
+    <div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead"></div><div class="bead"></div>
+    <div class="bead big"></div>
+    <div class="bead"></div><div class="bead"></div><div class="bead"></div>
+  </div>
+  <p class="cover-desc">
+    Contendo os quatro conjuntos de mistérios:<br>
+    <strong style="color:var(--gold)">Gozosos · Dolorosos · Gloriosos · Luminosos</strong><br><br>
+    Com trechos bíblicos, contemplação e espiritualidade<br>
+    para cada mistério do Santo Rosário.
+  </p>
+  <p class="cover-author-label">Compilado e organizado por</p>
+  <p class="cover-author">Marcelo Barbosa Dias</p>
+  <p class="cover-footer">Ad Jesum per Mariam — A Jesus por Maria</p>
+</section>
+
+<!-- ══════════════ CABEÇALHO FIXO ══════════════ -->
+<div class="page-header">
+  <span>O SANTO TERÇO · Rosário Mariano</span>
+  <span>Marcelo Barbosa Dias</span>
+</div>
+
+<!-- ══════════════ CONTEÚDO ══════════════ -->
+<main class="content">
+
+  <!-- Título da página 2 -->
+  <p class="page-title">O SANTO TERÇO</p>
+  <p class="page-subtitle">Rosário Mariano — Explicação Completa</p>
+  <hr class="gold-rule">
+
+  <!-- Cards intro -->
+  <div class="intro-cards">
+    <div class="intro-card">
+      <b>O que é o Terço?</b>
+      Uma oração vocal e meditativa que une a boca, a mente e o coração em
+      contemplação dos mistérios da vida de Cristo, conduzidos pelo olhar
+      materno de Maria.
+    </div>
+    <div class="intro-card">
+      <b>Para que serve?</b>
+      Forma a alma cristã, educa virtudes, acalma a mente e aprofunda a fé.
+      Une o fiel ao Evangelho de forma viva e perseverante, dia após dia.
+    </div>
+  </div>
+
+  <!-- Citação -->
+  <div class="quote-block">
+    "O Rosário é a escola de Maria para nos conduzir a Cristo."
+    <span class="author">— São João Paulo II</span>
+  </div>
+
+  <!-- Síntese -->
+  <div class="sintese">
+    Enquanto a <strong>boca reza</strong>, a <strong>mente contempla</strong>
+    e o <strong>coração se transforma</strong>.
+  </div>
+
+  <!-- ── ESTRUTURA ── -->
+  <div class="section-header">ESTRUTURA DO SANTO TERÇO</div>
+
+  <div class="item-block">
+    <h3>1. Sinal da Cruz</h3>
+    <p><strong>O que é:</strong> Início da oração, consagrando tudo à Santíssima Trindade.</p>
+    <p><strong>Significado espiritual:</strong></p>
+    <ul>
+      <li>Consagra toda a oração à Santíssima Trindade</li>
+      <li>Recorda o Batismo</li>
+      <li>Marca que entramos num tempo sagrado</li>
+    </ul>
+    <div class="spirit-tip">👉 O Terço começa como termina a Missa: em Deus.</div>
+  </div>
+
+  <div class="item-block">
+    <h3>2. Oferecimento do Terço (opcional)</h3>
+    <p><strong>O que é:</strong> Intenção pessoal — nada é rezado sem sentido.</p>
+    <p><strong>Pode ser:</strong></p>
+    <ul>
+      <li>Por alguém</li>
+      <li>Por conversão</li>
+      <li>Por agradecimento</li>
+      <li>Por uma causa impossível</li>
+    </ul>
+    <div class="spirit-tip">👉 O Terço sem intenção vira rotina.</div>
+  </div>
+
+  <div class="item-block">
+    <h3>3. Credo</h3>
+    <p><strong>O que é:</strong> Profissão de fé — base de tudo o que será contemplado.</p>
+    <ul>
+      <li>Antes de meditar Cristo, afirmamos quem Ele é</li>
+      <li>O Rosário não é mariano isolado: é cristológico</li>
+    </ul>
+    <div class="bib-ref">📖 Romanos 10,10 — "Com o coração se crê…"</div>
+  </div>
+
+  <div class="item-block">
+    <h3>4. Pai-Nosso (na conta grande)</h3>
+    <ul>
+      <li>Oração ensinada por Jesus</li>
+      <li>Entrega total à vontade do Pai</li>
+      <li>Cada mistério começa com confiança filial</li>
+    </ul>
+  </div>
+
+  <div class="item-block">
+    <h3>5. Três Ave-Marias</h3>
+    <p><strong>Tradicionalmente:</strong> 1ª = Fé &nbsp;|&nbsp; 2ª = Esperança &nbsp;|&nbsp; 3ª = Caridade</p>
+    <ul>
+      <li>Preparação interior</li>
+      <li>Pedido de virtudes para rezar bem</li>
+    </ul>
+    <div class="bib-ref">📖 Lucas 1,28 — saudação do anjo &nbsp;|&nbsp; Lucas 1,42 — saudação de Isabel</div>
+    <div class="spirit-tip">👉 A Ave-Maria é bíblica do começo ao fim.</div>
+  </div>
+
+  <div class="item-block">
+    <h3>6. Glória ao Pai</h3>
+    <ul>
+      <li>Tudo termina na Trindade</li>
+      <li>Louvor puro</li>
+      <li>Maria sempre nos leva ao Deus Uno e Trino</li>
+    </ul>
+  </div>
+
+  <!-- ── OS MISTÉRIOS ── -->
+  <div class="section-header">OS QUATRO CONJUNTOS DE MISTÉRIOS</div>
+  <p style="margin-bottom:16px;font-size:.95rem;line-height:1.7;">
+    Aqui começa o coração do Terço. Cada mistério é um Evangelho resumido.
+    Enquanto a boca reza a Ave-Maria, a mente contempla a cena sagrada.
+  </p>
+
+  <table class="overview-table">
+    <thead>
+      <tr>
+        <th>MISTÉRIOS GOZOSOS</th>
+        <th>MISTÉRIOS DOLOROSOS</th>
+        <th>MISTÉRIOS GLORIOSOS</th>
+        <th>MISTÉRIOS LUMINOSOS</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="row-desc">
+        <td>Encarnação e infância de Jesus</td>
+        <td>Paixão e morte de Cristo</td>
+        <td>Ressurreição e glória</td>
+        <td>Vida pública de Jesus</td>
+      </tr>
+      <tr class="row-days">
+        <td>Segunda e sábado</td>
+        <td>Terça e sexta-feira</td>
+        <td>Quarta e domingo</td>
+        <td>Quinta-feira</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- GOZOSOS -->
+  <div class="mystery-group">
+    <div class="mystery-header gozosos">
+      <h2>MISTÉRIOS GOZOSOS</h2>
+      <span class="days">Segunda-feira e Sábado</span>
+    </div>
+    <div class="mystery-item gozosos"><h4 class="gozosos">1º Mistério — A Anunciação</h4><p>O Anjo Gabriel anuncia a Maria que ela conceberá o Filho de Deus.</p><p class="ref">Trecho: Lucas 1,26-38 — "Eis a serva do Senhor, faça-se em mim segundo a tua palavra."</p><p class="contemple"><b>Contemple:</b> A humildade e o "sim" de Maria. Como posso dizer "sim" a Deus hoje?</p></div>
+    <div class="mystery-item gozosos"><h4 class="gozosos">2º Mistério — A Visitação</h4><p>Maria visita sua prima Isabel, grávida de João Batista. O Espírito Santo manifesta-se.</p><p class="ref">Trecho: Lucas 1,39-56 — "Feliz aquela que creu, pois se cumprirá o que lhe foi dito."</p><p class="contemple"><b>Contemple:</b> A caridade ativa. Maria leva Jesus a Isabel. Quem posso visitar e consolar?</p></div>
+    <div class="mystery-item gozosos"><h4 class="gozosos">3º Mistério — O Nascimento de Jesus</h4><p>Jesus nasce em Belém, em humildade extrema. Os pastores e os anjos glorificam a Deus.</p><p class="ref">Trecho: Lucas 2,1-20 — "Hoje, na cidade de Davi, nasceu para vós o Salvador."</p><p class="contemple"><b>Contemple:</b> A encarnação de Deus. Deus se faz pequeno para nos encontrar. Humildade e pobreza de espírito.</p></div>
+    <div class="mystery-item gozosos"><h4 class="gozosos">4º Mistério — A Apresentação no Templo</h4><p>Maria e José apresentam o menino Jesus no Templo. Simeão profetiza sobre Ele.</p><p class="ref">Trecho: Lucas 2,22-38 — "Uma espada transpassará a tua própria alma."</p><p class="contemple"><b>Contemple:</b> A obediência a Deus e à lei. A dor é parte da missão. O sofrimento santificado.</p></div>
+    <div class="mystery-item gozosos"><h4 class="gozosos">5º Mistério — Jesus Encontrado no Templo</h4><p>O menino Jesus fica no Templo, entre os doutores, dizendo estar na casa do Pai.</p><p class="ref">Trecho: Lucas 2,41-52 — "Não sabíeis que eu devia estar na casa de meu Pai?"</p><p class="contemple"><b>Contemple:</b> A busca de Deus. Jesus é encontrado na oração e no estudo das Escrituras.</p></div>
+  </div>
+
+  <!-- DOLOROSOS -->
+  <div class="mystery-group">
+    <div class="mystery-header dolorosos">
+      <h2>MISTÉRIOS DOLOROSOS</h2>
+      <span class="days">Terça-feira e Sexta-feira</span>
+    </div>
+    <div class="mystery-item dolorosos"><h4 class="dolorosos">1º Mistério — A Agonia no Horto</h4><p>Jesus ora no Getsêmani em angústia, sabendo que a hora da paixão chegou.</p><p class="ref">Trecho: Lucas 22,39-46 — "Pai, se queres, afasta de mim este cálice; porém não se faça a minha, mas a tua vontade."</p><p class="contemple"><b>Contemple:</b> A oração na tribulação. Jesus suou sangue rezando. Perseverar na oração mesmo no sofrimento.</p></div>
+    <div class="mystery-item dolorosos"><h4 class="dolorosos">2º Mistério — A Flagelação</h4><p>Jesus é cruelmente flagelado por ordem de Pilatos.</p><p class="ref">Trecho: João 19,1 — "Então Pilatos mandou flagelar Jesus."</p><p class="contemple"><b>Contemple:</b> O sofrimento pelo pecado. Jesus carrega no corpo os nossos erros. Penitência e reparação.</p></div>
+    <div class="mystery-item dolorosos"><h4 class="dolorosos">3º Mistério — A Coroação de Espinhos</h4><p>Os soldados coroam Jesus com espinhos, zombando dele como rei.</p><p class="ref">Trecho: Mateus 27,27-31 — "Salve-te, rei dos judeus!"</p><p class="contemple"><b>Contemple:</b> A humilhação de Cristo. Aceitar o desprezo e a humilhação com amor.</p></div>
+    <div class="mystery-item dolorosos"><h4 class="dolorosos">4º Mistério — Jesus Carrega a Cruz</h4><p>Jesus carrega a cruz pesada em direção ao Calvário, caindo três vezes.</p><p class="ref">Trecho: Lucas 23,26-32 — "Se alguém quiser vir após mim, tome a sua cruz cada dia e me siga."</p><p class="contemple"><b>Contemple:</b> Carregar as cruzes da vida com força sobrenatural. Unir os sofrimentos aos de Cristo.</p></div>
+    <div class="mystery-item dolorosos"><h4 class="dolorosos">5º Mistério — A Crucificação e Morte de Jesus</h4><p>Jesus é crucificado no Calvário entre dois ladrões, e entrega o espírito ao Pai.</p><p class="ref">Trecho: João 19,25-30 — "Está consumado!" E inclinando a cabeça, entregou o espírito.</p><p class="contemple"><b>Contemple:</b> O amor supremo. "Ninguém tem maior amor do que dar a vida pelos amigos." Gratidão e contrição.</p></div>
+  </div>
+
+  <!-- GLORIOSOS -->
+  <div class="mystery-group">
+    <div class="mystery-header gloriosos">
+      <h2>MISTÉRIOS GLORIOSOS</h2>
+      <span class="days">Quarta-feira e Domingo</span>
+    </div>
+    <div class="mystery-item gloriosos"><h4 class="gloriosos">1º Mistério — A Ressurreição de Jesus</h4><p>Jesus ressuscita gloriosamente no terceiro dia, vencendo a morte e o pecado.</p><p class="ref">Trecho: João 20,1-18 — "Eu ressuscitei e continuo contigo, aleluia!"</p><p class="contemple"><b>Contemple:</b> A vitória sobre a morte. Nossa fé não é em vão. Alegria pascal e esperança da vida eterna.</p></div>
+    <div class="mystery-item gloriosos"><h4 class="gloriosos">2º Mistério — A Ascensão de Jesus ao Céu</h4><p>Jesus sobe ao céu diante dos apóstolos e promete enviar o Espírito Santo.</p><p class="ref">Trecho: Atos 1,9-11 — "Este mesmo Jesus... virá da mesma forma como o vistes subir ao céu."</p><p class="contemple"><b>Contemple:</b> A saudade santa. Anseiar pelo céu. Nossa pátria é o céu (Filipenses 3,20).</p></div>
+    <div class="mystery-item gloriosos"><h4 class="gloriosos">3º Mistério — A Vinda do Espírito Santo</h4><p>O Espírito Santo desce sobre Maria e os apóstolos reunidos no Cenáculo em Pentecostes.</p><p class="ref">Trecho: Atos 2,1-4 — "Todos ficaram repletos do Espírito Santo e começaram a falar em outras línguas."</p><p class="contemple"><b>Contemple:</b> Os dons do Espírito: sabedoria, fortaleza, ciência. Pedir renovação espiritual.</p></div>
+    <div class="mystery-item gloriosos"><h4 class="gloriosos">4º Mistério — A Assunção de Maria</h4><p>Maria é elevada ao céu em corpo e alma, pela graça de Deus.</p><p class="ref">Trecho: Apocalipse 12,1 — "Uma mulher vestida de sol, com a lua sob seus pés e uma coroa de doze estrelas."</p><p class="contemple"><b>Contemple:</b> Maria já é o que nós seremos. A glória que nos espera. Esperança da ressurreição.</p></div>
+    <div class="mystery-item gloriosos"><h4 class="gloriosos">5º Mistério — A Coroação de Maria como Rainha</h4><p>Maria é coroada Rainha do céu e da terra, mãe de toda a humanidade.</p><p class="ref">Trecho: Apocalipse 12,1; Lucas 1,48 — "Todas as gerações me chamarão bem-aventurada."</p><p class="contemple"><b>Contemple:</b> Maria intercede por nós. Confiar a vida a ela. "Eis aí tua mãe" (João 19,27).</p></div>
+  </div>
+
+  <!-- LUMINOSOS -->
+  <div class="mystery-group">
+    <div class="mystery-header luminosos">
+      <h2>MISTÉRIOS LUMINOSOS</h2>
+      <span class="days">Quinta-feira</span>
+    </div>
+    <div class="mystery-item luminosos"><h4 class="luminosos">1º Mistério — O Batismo de Jesus no Jordão</h4><p>Jesus é batizado por João no Jordão. O Espírito Santo desce como pomba e o Pai proclama.</p><p class="ref">Trecho: Mateus 3,16-17 — "Este é meu Filho amado, em quem me comprazo."</p><p class="contemple"><b>Contemple:</b> Nossa própria consagração batismal. Renovar o compromisso com Deus. Identidade de filhos de Deus.</p></div>
+    <div class="mystery-item luminosos"><h4 class="luminosos">2º Mistério — As Bodas de Caná</h4><p>Maria intercede junto a Jesus, que realiza o primeiro milagre transformando água em vinho.</p><p class="ref">Trecho: João 2,1-11 — "Fazei tudo o que Ele vos disser."</p><p class="contemple"><b>Contemple:</b> A intercessão de Maria. Confiar nela em toda necessidade. A obediência que abre milagres.</p></div>
+    <div class="mystery-item luminosos"><h4 class="luminosos">3º Mistério — O Anúncio do Reino de Deus</h4><p>Jesus proclama o Evangelho, chama à conversão e perdoa os pecados.</p><p class="ref">Trecho: Marcos 1,15 — "O tempo se cumpriu e o Reino de Deus está próximo. Convertei-vos e crede no Evangelho."</p><p class="contemple"><b>Contemple:</b> A conversão contínua. O Sacramento da Reconciliação. O perdão que liberta.</p></div>
+    <div class="mystery-item luminosos"><h4 class="luminosos">4º Mistério — A Transfiguração</h4><p>Jesus é transfigurado diante de Pedro, Tiago e João no Monte Tabor. Moisés e Elias aparecem.</p><p class="ref">Trecho: Lucas 9,28-36 — "Este é meu Filho eleito: escutai-o!"</p><p class="contemple"><b>Contemple:</b> Vislumbrar a glória que está por vir. A oração como experiência de Deus.</p></div>
+    <div class="mystery-item luminosos"><h4 class="luminosos">5º Mistério — A Instituição da Eucaristia</h4><p>Na Última Ceia, Jesus institui a Eucaristia, entregando seu Corpo e Sangue como alimento.</p><p class="ref">Trecho: Lucas 22,19-20 — "Fazei isto em memória de mim."</p><p class="contemple"><b>Contemple:</b> A Missa como centro da vida cristã. Adorar Jesus presente na Eucaristia. Gratidão pelo dom maior.</p></div>
+  </div>
+
+  <!-- ── COMO REZAR CADA DEZENA ── -->
+  <div class="section-header">COMO REZAR CADA DEZENA (PASSO A PASSO)</div>
+
+  <div class="step-block">
+    <h4>1. Anúncio do Mistério</h4>
+    <p>Ex: "No primeiro mistério doloroso contemplamos…" — A mente se fixa na cena sagrada.</p>
+  </div>
+  <div class="step-block">
+    <h4>2. Pai-Nosso</h4>
+    <p>Entrega da meditação ao Pai. Cada dezena começa com confiança filial.</p>
+  </div>
+  <div class="step-block">
+    <h4>3. Dez Ave-Marias</h4>
+    <p>As palavras são o pano de fundo. A mente contempla: o local, Jesus, Maria e o ensinamento espiritual. Exemplo: No mistério da Crucificação, pense em Cristo na cruz, no amor, no perdão, na entrega. Reze devagar.</p>
+    <div class="spirit-tip" style="margin-top:10px;">👉 Quem só fala e não contempla, não reza o Terço plenamente.</div>
+  </div>
+  <div class="step-block">
+    <h4>4. Glória ao Pai</h4>
+    <p>Louvor após a contemplação. Tudo termina na Santíssima Trindade.</p>
+  </div>
+  <div class="step-block">
+    <h4>5. Oração de Fátima (opcional)</h4>
+    <p>"Ó meu Jesus, perdoai-nos, livrai-nos do fogo do inferno, levai as almas todas para o céu, principalmente as que mais precisarem." — Misericórdia, intercessão pelos pecadores, dimensão missionária.</p>
+  </div>
+
+  <!-- ── ELEMENTOS FINAIS ── -->
+  <div class="section-header">ELEMENTOS FINAIS DO TERÇO</div>
+
+  <div class="item-block">
+    <h3>8. Salve-Rainha (ao final)</h3>
+    <ul>
+      <li>Reconhecemos Maria como Mãe</li>
+      <li>Pedimos intercessão na caminhada terrena</li>
+    </ul>
+    <div class="bib-ref">📖 João 19,27 — "Eis aí tua mãe."</div>
+  </div>
+
+  <div class="item-block">
+    <h3>9. Oração Final</h3>
+    <ul>
+      <li>Pedido para viver o que foi meditado</li>
+      <li>Aplicação prática do Evangelho</li>
+    </ul>
+    <div class="spirit-tip">👉 O Terço não termina na oração, termina na vida.</div>
+  </div>
+
+  <div class="item-block">
+    <h3>Por que o Terço repete?</h3>
+    <div class="bib-ref">📖 Mateus 26,44 — Jesus repetiu a mesma oração no Getsêmani.</div>
+    <ul>
+      <li>Acalma a mente</li>
+      <li>Silencia distrações</li>
+      <li>Abre espaço para Deus agir</li>
+    </ul>
+    <div class="spirit-tip">👉 Não é repetição vazia, é meditação perseverante.</div>
+  </div>
+
+  <!-- ── RESUMO ── -->
+  <div class="resumo">
+    <h2>✨ O TERÇO EM RESUMO</h2>
+    <div class="resumo-grid">
+      <div class="resumo-item"><b>Sinal da Cruz</b><span>→ Consagração</span></div>
+      <div class="resumo-item"><b>Credo</b><span>→ Fé</span></div>
+      <div class="resumo-item"><b>Mistérios</b><span>→ Evangelho</span></div>
+      <div class="resumo-item"><b>Ave-Maria</b><span>→ Contemplação</span></div>
+      <div class="resumo-item"><b>Glória</b><span>→ Louvor</span></div>
+      <div class="resumo-item"><b>Salve-Rainha</b><span>→ Entrega filial</span></div>
+    </div>
+  </div>
+
+  <!-- ── DICAS ── -->
+  <div class="tips-header">COMO TIRAR MAIS FRUTO DO TERÇO</div>
+  <div class="tip-item">✓ &nbsp;Reze devagar</div>
+  <div class="tip-item">✓ &nbsp;Use a imaginação santa</div>
+  <div class="tip-item">✓ &nbsp;Associe cada mistério à sua vida</div>
+  <div class="tip-item">✓ &nbsp;Termine com silêncio</div>
+
+  <!-- Citação final -->
+  <div class="quote-block" style="margin-top:28px;">
+    "O Rosário bem rezado é sinal de salvação."
+    <span class="author">— São Luís Maria Grignion de Montfort</span>
+  </div>
+
+</main>
+</body>
+</html>
